@@ -52,7 +52,7 @@ button, a, input, select, label { touch-action: manipulation; -webkit-tap-highli
 button:disabled { cursor: not-allowed; opacity: .45; }
 h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
 ul, ol { list-style: none; }
-h1, h2, h3 { line-height: 1.08; letter-spacing: -.035em; font-weight: 800; text-wrap: balance; color: var(--ink); }
+h1, h2, h3 { line-height: 1.04; letter-spacing: -.035em; font-weight: 800; text-wrap: balance; color: var(--ink); }
 h1 { font-size: clamp(38px, 4.6vw, 66px); }
 h2 { font-size: clamp(30px, 3.1vw, 46px); }
 h3, h2.h3 { font-size: 20px; letter-spacing: -.02em; line-height: 1.25; }
@@ -94,7 +94,7 @@ main { outline: none; min-height: 60vh; }
 .grad { color: var(--brand); }
 
 /* split text */
-.split-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.split-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; }
 .split-word { display: inline-block; will-change: transform; }
 
 /* =========================================================
@@ -238,7 +238,7 @@ kbd { font: 600 11px var(--font); padding: 2px 7px; border-radius: 6px; border: 
 .hero .eyebrow { color: #1f2747; margin-bottom: 18px; }
 .hero .eyebrow .icon { color: #1f2747; }
 .hero-title { font-family: var(--script); font-weight: 700; font-size: clamp(64px, 5.3vw, 102px); line-height: .92; letter-spacing: -.005em; color: #101a3a; margin: 0; }
-.hl-mask { display: block; overflow: hidden; padding: .04em .1em .1em 0; margin-bottom: -.1em; }
+.hl-mask { display: block; overflow: hidden; padding: .04em .1em 0 0; }
 .hl-mask.home { padding-left: 1.25em; padding-bottom: .3em; }
 .hl { display: inline-block; will-change: transform; }
 .hero-title .accent { font-size: 1.04em; line-height: .9; }

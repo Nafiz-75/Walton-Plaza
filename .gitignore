@@ -1,5 +1,8 @@
 # Not part of the GitHub upload
-figma-plugin/
+# Figma plugin: the plugin itself (manifest, code.js, ui.html, tools) is included; captured data and previews are regenerable
+figma-plugin/data/
+figma-plugin/tools/node_modules/
+figma-plugin/tools/*.log
 .claude/
 CLAUDE.md
 *.memory.md

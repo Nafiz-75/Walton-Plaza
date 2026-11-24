@@ -2,7 +2,7 @@ import { ext } from './externalLinks'
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Headphones, Wrench, MapPin, Heart, Phone, ShoppingBag, Columns2, Compass, Trash2, Clock } from 'lucide-react'
 import { Link } from '../lib/router'
-import { CATEGORIES, COUNT, FAQ, P, PRODUCTS } from '../lib/data'
+import { CATEGORIES, COUNT, FAQ, P, PRODUCTS, LIFE } from '../lib/data'
 import { useStore } from '../lib/store'
 import { spring } from '../lib/motion'
 import { AnimatedNumber, Breadcrumbs, Empty, Item, PageHead, Reveal, SplitText, Stagger, spotlight } from '../components/ui'
@@ -14,7 +14,7 @@ export function Stores() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Find a Plaza']]} />
-      <PageHead eyebrow="Closer to home" title="See your shortlist in person." text="Connect with a Walton Plaza to confirm stock, explore your payment options and get help choosing." />
+      <PageHead eyebrow="Closer to home" title="See your shortlist" accent="in person." photo={LIFE.living.src} photoAlt={LIFE.living.alt} text="Connect with a Walton Plaza to confirm stock, explore your payment options and get help choosing." />
       <Stagger className="editorial pad-b">
         <Item className="ed-card navy" {...spotlight}>
           <MapPin className="icon ed-icon" />

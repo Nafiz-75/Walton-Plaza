@@ -4,7 +4,7 @@ import { ArrowUp, ArrowUpRight, Phone, PhoneCall, MapPin, BadgeCheck, Columns2, 
 import { Link } from '../lib/router'
 import { slug, PRODUCTS } from '../lib/data'
 import { scrollTo } from '../lib/smooth'
-import { Brand, Magnetic, Stagger, Item, ThemeSwitch, spotlight } from './ui'
+import { Accent, Brand, Feature, Magnetic, Stagger, Item, ThemeSwitch } from './ui'
 
 const COLS = [
   ['Find your next', [['Refrigerators & freezers', slug('Refrigerators')], ['Televisions', slug('Televisions')], ['Air conditioners', slug('Air conditioners')], ['Washing machines', slug('Washing machines')], ['Kitchen appliances', slug('Kitchen appliances')], ['All products', '#/shop']]],
@@ -26,14 +26,11 @@ export default function Footer() {
   const o = useTransform(scrollYProgress, [0, 1], [0.2, 1])
   return (
     <footer className="footer" ref={ref}>
-      <div className="footer-glow" aria-hidden="true" />
       <div className="wrap">
-        {/* Contact panel — same language as the hero: navy, indigo glow, faint grid */}
-        <div className="footer-cta" {...spotlight}>
-          <div className="fc-grid" aria-hidden="true" />
+        <div className="footer-cta">
           <div className="fc-copy">
             <span className="eyebrow on-dark">Always within reach</span>
-            <h2>Questions before you choose?<br /><span className="grad">We’re one call away.</span></h2>
+            <h2>Questions before you choose?<br />We’re one call <Accent>away.</Accent></h2>
             <p>Talk to Walton customer care about models, warranty or service, or visit a Plaza to see it in person.</p>
           </div>
           <div className="fc-actions">
@@ -45,7 +42,7 @@ export default function Footer() {
 
         <Stagger className="promises" each={0.06}>
           {PROMISES.map(([I, t, s]) => (
-            <Item key={t} className="promise"><span className="pr-ico"><I className="icon" /></span><span><b>{t}</b><small>{s}</small></span></Item>
+            <Item key={t} className="promise"><Feature icon={I} title={t} text={s} /></Item>
           ))}
         </Stagger>
 
@@ -61,7 +58,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <motion.div className="footer-word" style={{ y, opacity: o }} aria-hidden="true">Walton Plaza</motion.div>
+      <motion.p className="footer-sign" style={{ y, opacity: o }} aria-hidden="true">Make yourself at home.</motion.p>
 
       <div className="wrap">
         <div className="footer-bottom">

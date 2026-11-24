@@ -14,7 +14,7 @@ export function Sources({ privacy }) {
   return (
     <div className="wrap">
       <Breadcrumbs items={[[privacy ? 'Privacy & prototype notes' : 'Catalogue sources']]} />
-      <PageHead eyebrow="Clear by design" title={privacy ? 'Your data stays with you.' : 'Every model has a source.'} />
+      <PageHead eyebrow="Clear by design" title={privacy ? 'Your data stays' : 'Every model has a'} accent={privacy ? 'with you.' : 'source.'} />
       <Reveal className="panel prose pad-b-sm">
         <h2 className="h3">{privacy ? 'How this prototype works' : 'Catalogue coverage'}</h2>
         <p>{privacy

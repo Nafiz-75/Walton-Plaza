@@ -95,6 +95,18 @@ export function search(q, limit = Infinity) {
   return scored.sort((a, b) => b[0] - a[0]).slice(0, limit).map(x => x[1])
 }
 
+// Lifestyle photography: generated rooms with the real Walton product photo placed into each one.
+// `id` is the product shown in the photo, so every caption and price comes from the catalogue.
+export const LIFE = {
+  hero: { src: './img/lifestyle/hero-kitchen.webp', id: 'fc934d493c38', alt: 'A woman holding a cup of tea in a sunlit kitchen beside a Walton WNR-6B0-GSRE-BD refrigerator' },
+  kitchen: { src: './img/lifestyle/kitchen-counter.webp', id: 'acc98f09c2c1', alt: 'A Walton blender set on a wooden kitchen counter in morning light, beside sliced mango' },
+  bedroom: { src: './img/lifestyle/bedroom-ac.webp', id: '6af62ea3911a', alt: 'A man reading in bed below a wall-mounted Walton inverter air conditioner' },
+  laundry: { src: './img/lifestyle/laundry.webp', id: '9f797fcbb782', alt: 'A woman carrying folded laundry past a Walton washer and dryer' },
+  living: { src: './img/lifestyle/living-tv.webp', id: 'c6d5374847d3', alt: 'A mother and daughter on the sofa watching a Walton 65-inch Google TV in the evening' },
+  reading: { src: './img/lifestyle/reading-corner.webp', id: 'a499e75be6ca', alt: 'A grandfather reading the newspaper beside a Walton air cooler at dusk' },
+  family: { src: './img/lifestyle/family.webp', alt: 'Three generations of a family sharing tea and laughing at home' },
+}
+
 export const HERO_SCENES = [
   { title: 'Fresh food', cat: 'Refrigerators', line: 'Room for the whole week.' },
   { title: 'Movie night', cat: 'Televisions', line: 'A bigger picture. A closer feeling.' },

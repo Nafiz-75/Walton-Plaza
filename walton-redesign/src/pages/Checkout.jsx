@@ -41,7 +41,7 @@ export function Checkout() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Bag', '#/cart'], ['Checkout']]} />
-      <PageHead eyebrow="A considered purchase" title="Let’s bring it home." />
+      <PageHead eyebrow="A considered purchase" title="Let’s bring it" accent="home." />
       <ol className="stepper" aria-label="Checkout progress">
         {['Your details', 'Review', 'Preview complete'].map((s, i) => (
           <li key={s} className={i === step ? 'on' : i < step ? 'done' : ''} aria-current={i === step ? 'step' : undefined}>

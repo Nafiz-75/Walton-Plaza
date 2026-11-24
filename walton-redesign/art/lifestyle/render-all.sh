@@ -1,0 +1,9 @@
+# Regenerates public/img/lifestyle/*.webp: real Walton product cutouts placed into generated room photos.
+# Run from walton-redesign/:  bash art/lifestyle/render-all.sh   (needs Python + Pillow + numpy)
+C="python $(dirname $0)/comp.py"; S=art/lifestyle O=public/img/lifestyle
+$C '{"room":"'$S'/hero-room.webp","product":"public/img/fc934d493c38-hd.webp","crop":[0,0,1040,1913],"height":575,"cx":818,"bottom":724,"tint":[1.05,0.99,0.88],"sat":0.82,"contrast":0.88,"lightL":1.04,"lightR":0.84,"wall":0.36,"floor":0.7,"out":"'$O'/hero-kitchen.webp"}'
+$C '{"room":"'$S'/kitchen-counter.webp","product":"'$S'/blender-clean.webp","width":1536,"height":560,"cx":500,"bottom":655,"tint":[1.06,0.99,0.86],"sat":0.88,"contrast":0.9,"lightL":1.08,"lightR":0.84,"wall":0.3,"wallx":30,"floor":0.6,"out":"'$O'/kitchen-counter.webp"}'
+$C '{"room":"'$S'/living-tv.webp","product":"'$S'/tv-clean.webp","width":1536,"height":435,"cx":760,"bottom":500,"tint":[1.02,0.97,0.9],"sat":0.92,"contrast":0.95,"lift":-10,"lightL":0.95,"lightR":0.85,"lightB":1,"wall":0.3,"wallx":14,"floor":0,"out":"'$O'/living-tv.webp"}'
+$C '{"room":"'$S'/bedroom-ac.webp","product":"'$S'/ac-clean.webp","width":1536,"height":150,"cx":1060,"bottom":360,"tint":[1.0,0.98,0.93],"sat":0.9,"contrast":0.85,"lift":-4,"lightL":1.0,"lightR":0.9,"lightB":0.9,"wall":0.22,"wallx":10,"wallblur":10,"floor":0,"out":"'$O'/bedroom-ac.webp"}'
+$C '{"room":"'$S'/laundry.webp","product":"public/img/9f797fcbb782-hd.webp","width":1536,"height":380,"cx":790,"bottom":832,"tint":[1.03,1.0,0.92],"sat":0.9,"contrast":0.9,"lightL":1.05,"lightR":0.88,"wall":0.3,"floor":0.65,"out":"'$O'/laundry.webp"}'
+$C '{"room":"'$S'/reading-corner.webp","product":"public/img/a499e75be6ca-hd.webp","width":1536,"height":560,"cx":430,"bottom":805,"tint":[1.02,0.97,0.9],"sat":0.85,"contrast":0.88,"lift":-14,"lightL":0.82,"lightR":0.98,"lightB":0.88,"wall":0.3,"wallx":-22,"floor":0.65,"out":"'$O'/reading-corner.webp"}'

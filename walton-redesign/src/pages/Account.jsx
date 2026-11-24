@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Headphones, Wrench, MapPin, Heart, Phone, ShoppingBag, Columns2, Compass, Trash2, Clock } from 'lucide-react'
 import { Link } from '../lib/router'
-import { CATEGORIES, COUNT, FAQ, P, PRODUCTS } from '../lib/data'
+import { CATEGORIES, COUNT, FAQ, P, PRODUCTS, LIFE } from '../lib/data'
 import { useStore } from '../lib/store'
 import { spring } from '../lib/motion'
 import { AnimatedNumber, Breadcrumbs, Empty, Item, PageHead, Reveal, SplitText, Stagger, spotlight } from '../components/ui'
@@ -21,7 +21,7 @@ export function Account() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Your space']]} />
-      <PageHead eyebrow="Make yourself at home" title="Your space. Your possibilities." text="Keep your favourites close and pick up where you left off." />
+      <PageHead eyebrow="Make yourself at home" title="Your space. Your" accent="possibilities." photo={LIFE.laundry.src} photoAlt={LIFE.laundry.alt} text="Keep your favourites close and pick up where you left off." />
       <Stagger className="account-tiles">
         {tiles.map(([I, l, n, to]) => {
           const inner = <><I className="icon" /><strong><AnimatedNumber value={n} onView /></strong><span>{l}</span>{to && <ArrowRight className="icon arrow at-arrow" />}</>

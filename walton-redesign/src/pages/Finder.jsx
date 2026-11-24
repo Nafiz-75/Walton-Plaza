@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ArrowLeft, X, Columns2, Plus, Search, Check, Info } from 'lucide-react'
 import { Link, navigate, useRoute } from '../lib/router'
-import { BUDGETS, CATEGORIES, COUNT, CAT_HINT, P, PRODUCTS, money, moneyPlain, pick, slug, search, isInverter } from '../lib/data'
+import { BUDGETS, CATEGORIES, COUNT, CAT_HINT, P, PRODUCTS, money, moneyPlain, pick, slug, search, isInverter, LIFE } from '../lib/data'
 import { useStore } from '../lib/store'
 import { spring, ease } from '../lib/motion'
 import { AnimatedNumber, Breadcrumbs, Empty, PageHead, ProductImage, Reveal, Stagger, Item } from '../components/ui'
@@ -32,7 +32,7 @@ export function Finder() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Product finder']]} />
-      <PageHead eyebrow="Find your fit" title="A home is personal. Your choice should be, too." text="Three quick questions. We’ll narrow the catalogue so you can compare the details." />
+      <PageHead eyebrow="Find your fit" title="A home is personal. Your choice should be," accent="too." photo={LIFE.bedroom.src} photoAlt={LIFE.bedroom.alt} position="62% center" text="Three quick questions. We’ll narrow the catalogue so you can compare the details." />
       <div className="finder">
         <ol className="finder-steps" aria-label="Progress">
           {STEPS.map((s, i) => (

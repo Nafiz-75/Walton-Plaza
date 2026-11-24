@@ -6,3 +6,6 @@
 @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-display: swap; src: url(../assets/fonts/plus-jakarta-sans-latin-800-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Hind Siliguri'; font-weight: 400 500; font-display: swap; unicode-range: U+09E6-09F3; src: url(../assets/fonts/HindSiliguri-400.woff) format('woff'); }
 @font-face { font-family: 'Hind Siliguri'; font-weight: 600 800; font-display: swap; unicode-range: U+09E6-09F3; src: url(../assets/fonts/HindSiliguri-600.woff) format('woff'); }
+/* Caveat: the handwritten accent voice (hero headline, one accent word per heading, notes). */
+@font-face { font-family: 'Caveat'; font-weight: 600; font-display: swap; src: url(../assets/fonts/caveat-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Caveat'; font-weight: 700; font-display: swap; src: url(../assets/fonts/caveat-latin-700-normal.woff2) format('woff2'); }

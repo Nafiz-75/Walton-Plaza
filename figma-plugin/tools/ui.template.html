@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  :root { --bg: var(--figma-color-bg, #fff); --fg: var(--figma-color-text, #0d1533); --muted: var(--figma-color-text-secondary, #5a6480); --line: var(--figma-color-border, #e3e6ee); --brand: #2438c4; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 13px/1.5 Inter, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+  .wrap { padding: 20px; display: grid; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .logo { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #0a1240, #2438c4); display: grid; place-items: center; color: #fff; font-weight: 800; }
+  h1 { font-size: 15px; margin: 0; }
+  p { margin: 0; color: var(--muted); }
+  fieldset { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0; display: grid; gap: 6px; }
+  legend { font-weight: 600; padding: 0 4px; }
+  label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+  .row { display: flex; gap: 16px; }
+  button { appearance: none; border: 0; border-radius: 8px; padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer; }
+  .primary { background: var(--brand); color: #fff; width: 100%; }
+  .primary:disabled { opacity: .5; cursor: default; }
+  .bar { height: 8px; border-radius: 8px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--brand); transition: width .2s; }
+  #log { max-height: 120px; overflow: auto; font-size: 11px; color: var(--muted); white-space: pre-wrap; }
+  .stat { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><div class="logo">W</div><div><h1>Walton Plaza — Site Importer</h1><p>Rebuilds the website as editable, prototyped Figma screens.</p></div></div>
+  <fieldset><legend>Devices</legend>
+    <div class="row"><label><input type="checkbox" name="dev" value="d" checked> Desktop · 1920</label><label><input type="checkbox" name="dev" value="m" checked> Mobile · 402</label></div>
+  </fieldset>
+  <fieldset><legend>Themes</legend>
+    <div class="row"><label><input type="checkbox" name="theme" value="light" checked> Light</label><label><input type="checkbox" name="theme" value="dark" checked> Dark</label></div>
+  </fieldset>
+  <fieldset><legend>Include</legend>
+    <label><input type="checkbox" id="states" checked> Open states (search, bag, menu, quick view, filters)</label>
+  </fieldset>
+  <p id="summary" class="stat"></p>
+  <button class="primary" id="go">Import into this file</button>
+  <div class="bar"><i id="bar"></i></div>
+  <p id="label" class="stat">Ready.</p>
+  <div id="log"></div>
+</div>
+<script id="payload" type="application/octet-stream">__PAYLOAD__</script>
+<script id="imagedata" type="application/octet-stream">__IMAGES__</script>
+<script>
+const $ = s => document.querySelector(s)
+const log = m => { $('#log').textContent += m + '\n'; $('#log').scrollTop = 1e9 }
+async function gunzipB64(b64) {
+  const bin = Uint8Array.from(atob(b64.trim()), c => c.charCodeAt(0))
+  const stream = new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))
+  return JSON.parse(await new Response(stream).text())
+}
+let DATA, IMAGES, queue = [], total = 0
+;(async () => {
+  DATA = await gunzipB64($('#payload').textContent)
+  IMAGES = await gunzipB64($('#imagedata').textContent)
+  const upd = () => { const sel = selected(); $('#summary').textContent = sel.length + ' screens selected · ' + DATA.index.length + ' available' }
+  document.querySelectorAll('input').forEach(i => i.addEventListener('change', upd)); upd()
+})().catch(e => log('Could not read the embedded design data: ' + e.message))
+function selected() {
+  const devs = [...document.querySelectorAll('input[name=dev]:checked')].map(i => i.value)
+  const themes = [...document.querySelectorAll('input[name=theme]:checked')].map(i => i.value)
+  const states = $('#states').checked
+  return DATA.index.filter(s => devs.includes(s.device) && themes.includes(s.theme) && (states || !s.state))
+    .sort((a, b) => (a.device === b.device ? 0 : a.device === 'd' ? -1 : 1) || (a.theme === b.theme ? 0 : a.theme === 'light' ? -1 : 1))
+}
+$('#go').onclick = () => {
+  queue = selected(); total = queue.length
+  if (!total) return
+  $('#go').disabled = true
+  parent.postMessage({ pluginMessage: { type: 'start', tokens: DATA.tokens, textSamples: DATA.textSamples } }, '*')
+}
+function next() {
+  const s = queue.shift()
+  $('#bar').style.width = ((total - queue.length) / total * 100).toFixed(1) + '%'
+  if (!s) { parent.postMessage({ pluginMessage: { type: 'finish' } }, '*'); return }
+  $('#label').textContent = 'Building ' + (s.device === 'd' ? 'Desktop' : 'Mobile') + ' · ' + s.theme + ' · ' + s.label + '  (' + (total - queue.length) + '/' + total + ')'
+  parent.postMessage({ pluginMessage: { type: 'screen', data: DATA.screens[s.id] } }, '*')
+}
+onmessage = e => {
+  const m = e.data.pluginMessage; if (!m) return
+  if (m.type === 'progress') $('#label').textContent = m.label
+  if (m.type === 'log') log(m.msg)
+  if (m.type === 'ready-images') { $('#label').textContent = 'Uploading ' + IMAGES.length + ' images…'; parent.postMessage({ pluginMessage: { type: 'images', list: IMAGES } }, '*') }
+  if (m.type === 'ready-screens' || m.type === 'screen-done') next()
+  if (m.type === 'done') { $('#bar').style.width = '100%'; $('#label').textContent = 'Done — ' + m.screens + ' screens, ' + m.nodes.toLocaleString() + ' layers.'; const b = $('#go'); b.disabled = false; b.textContent = 'Close'; b.onclick = () => parent.postMessage({ pluginMessage: { type: 'close' } }, '*') }
+  if (m.type === 'error') { log('Error: ' + m.msg); $('#label').textContent = 'Stopped on an error — see the log.'; $('#go').disabled = false }
+}
+</script>
+</body>
+</html>

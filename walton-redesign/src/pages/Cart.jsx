@@ -15,7 +15,7 @@ export function Cart() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Shopping bag']]} />
-      <PageHead eyebrow="One step closer to home" title="Your shopping bag." text={cartEntries.length ? 'Review your choices and plan what comes next.' : 'Your next everyday upgrade is waiting.'} />
+      <PageHead eyebrow="One step closer to home" title="Your shopping" accent="bag." text={cartEntries.length ? 'Review your choices and plan what comes next.' : 'Your next everyday upgrade is waiting.'} />
       {!cartEntries.length ? (
         <div className="pad-b"><Empty icon={ShoppingBag} title="A little room for something good." text="Explore the collection and add your favourites." /></div>
       ) : (

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Headphones, Wrench, MapPin, Heart, Phone, ShoppingBag, Columns2, Compass, Trash2, Clock } from 'lucide-react'
 import { Link } from '../lib/router'
-import { CATEGORIES, COUNT, FAQ, P, PRODUCTS } from '../lib/data'
+import { CATEGORIES, COUNT, FAQ, P, PRODUCTS, LIFE } from '../lib/data'
 import { useStore } from '../lib/store'
 import { spring } from '../lib/motion'
 import { AnimatedNumber, Breadcrumbs, Empty, Item, PageHead, Reveal, SplitText, Stagger, spotlight } from '../components/ui'
@@ -19,7 +19,7 @@ export function Support({ sub }) {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Help & support']]} />
-      <PageHead eyebrow="A little help goes a long way" title="Here for your everyday." text="From choosing your appliance to caring for it. Find the right next step." />
+      <PageHead eyebrow="A little help goes a long way" title="Here for your" accent="everyday." photo={LIFE.reading.src} photoAlt={LIFE.reading.alt} position="40% center" text="From choosing your appliance to caring for it. Find the right next step." />
       <Stagger className="supportgrid">
         {cards.map(([I, t, d, l, a]) => (
           <Item key={t} className="supportcard" {...spotlight}>

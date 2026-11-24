@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView, useScroll, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Sun, Moon } from 'lucide-react'
 import logo from '../assets/brand/walton-wordmark.svg?raw' // official WALTON wordmark (waltonbd.com), colour follows the theme
 import emblem from '../assets/brand/walton-emblem.svg' // official "W" emblem in Walton blue + red
@@ -92,16 +92,68 @@ export function Magnetic({ children, strength = 0.28, className }) {
   )
 }
 
-export function SectionHead({ eyebrow, title, text, link, label = 'Explore all' }) {
+/** Hand-drawn underline: draws itself once when it scrolls into view. */
+export function Scribble({ className = '', delay = 0.2 }) {
+  return (
+    <svg className={'scribble ' + className} viewBox="0 0 240 22" preserveAspectRatio="none" aria-hidden="true">
+      <motion.path d="M3 15.5C48 7.8 104 5.2 157 6.6c27 .7 52 2.6 80 6.2" fill="none" stroke="currentColor" strokeWidth="4.2" strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.9, delay, ease: [0.65, 0, 0.35, 1] }} />
+    </svg>
+  )
+}
+
+/** The handwritten accent: one word or phrase per heading, in Walton blue, underlined by hand.
+ *  Plain inline text (the underline is a background that draws in), so it flows and wraps like the words around it.
+ *  `swash` uses a real SVG stroke instead, for a headline line that stands on its own (the hero). */
+export function Accent({ children, line = true, delay = 0.2, swash = false }) {
+  if (swash) return <span className="accent swash">{children}{line && <Scribble delay={delay} />}</span>
+  return (
+    <motion.span className={'accent' + (line ? ' lined' : '')} initial={line ? { backgroundSize: '0% 0.24em' } : false}
+      whileInView={line ? { backgroundSize: '100% 0.24em' } : undefined} viewport={{ once: true }} transition={{ duration: 0.9, delay, ease: [0.65, 0, 0.35, 1] }}>
+      {children}
+    </motion.span>
+  )
+}
+
+/** Heading text with an optional handwritten accent at the end. */
+export const Title = ({ title, accent }) => <>{title}{accent && <>{' '}<Accent>{accent}</Accent></>}</>
+
+export function SectionHead({ eyebrow, icon: Icon, title, accent, text, link, label = 'Explore all' }) {
   return (
     <Stagger className="sectionhead">
       <div>
-        {eyebrow && <Item as="span" className="eyebrow">{eyebrow}</Item>}
-        <Item as="h2">{title}</Item>
+        {eyebrow && <Item as="span" className="eyebrow">{Icon && <Icon className="icon" />}{eyebrow}</Item>}
+        <Item as="h2"><Title title={title} accent={accent} /></Item>
         {text && <Item as="p" className="lead">{text}</Item>}
       </div>
       {link && <Item><Link className="textlink" to={link}>{label} <ArrowRight className="icon arrow" /></Link></Item>}
     </Stagger>
+  )
+}
+
+/** A lifestyle photograph that drifts slightly against the scroll. Real products are photographed into each room. */
+export function Scene({ src, alt, className = '', ratio, children, drift = 40, eager = false, position }) {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-drift, drift])
+  return (
+    <figure ref={ref} className={'scene ' + className} style={ratio ? { aspectRatio: ratio } : undefined}>
+      <motion.img src={src} alt={alt} style={{ y, objectPosition: position }} loading={eager ? 'eager' : 'lazy'} decoding="async" draggable="false"
+        initial={{ scale: 1.06, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true, margin: '0px 0px -10% 0px' }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} />
+      {children}
+    </figure>
+  )
+}
+
+/** Icon + title + one line. Used for product benefits, trust promises and service notes. */
+export function Feature({ icon: Icon, title, text, as = 'div', className = '', ...rest }) {
+  const C = as
+  return (
+    <C className={'feature ' + className} {...rest}>
+      <span className="feature-ico" aria-hidden="true"><Icon className="icon" /></span>
+      <span className="feature-text"><b>{title}</b>{text && <small>{text}</small>}</span>
+    </C>
   )
 }
 
@@ -116,15 +168,17 @@ export function Breadcrumbs({ items }) {
   )
 }
 
-export function PageHead({ eyebrow, title, text, children }) {
-  return (
-    <header className="pagehead">
-      {eyebrow && <Reveal as="span" className="eyebrow">{eyebrow}</Reveal>}
-      <SplitText as="h1" text={title} />
+export function PageHead({ eyebrow, icon: Icon, title, accent, text, children, photo, photoAlt = '', position }) {
+  const head = (
+    <header className={'pagehead' + (photo ? ' with-photo' : '')}>
+      {eyebrow && <Reveal as="span" className="eyebrow">{Icon && <Icon className="icon" />}{eyebrow}</Reveal>}
+      <h1><SplitText text={title} />{accent && <>{' '}<motion.span className="accent-wrap" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.6 }}><Accent delay={0.6}>{accent}</Accent></motion.span></>}</h1>
       {text && <Reveal as="p" className="lead" delay={0.15}>{text}</Reveal>}
       {children}
     </header>
   )
+  if (!photo) return head
+  return <div className="pagehead-split">{head}<Scene className="pagehead-photo" src={photo} alt={photoAlt} eager drift={24} position={position} /></div>
 }
 
 export function Empty({ icon: Icon, title, text, cta = ['Explore products', '#/shop'] }) {
@@ -146,17 +200,11 @@ export function ProductImage({ p, hd = false, eager = false, className = '', ...
   const [loaded, setLoaded] = useState(false)
   useEffect(() => { const el = ref.current; setLoaded(!!(el && el.complete && el.naturalWidth)) }, [src])
   return <img ref={ref} className={'pimg ' + (loaded ? 'loaded ' : '') + className} src={src} alt={p.name} loading={eager ? 'eager' : 'lazy'} decoding="async" draggable="false"
-    onLoad={() => setLoaded(true)} onError={() => setLoaded(true)} {...(eager ? { fetchpriority: 'high' } : {})} {...rest} />
+    onLoad={() => setLoaded(true)} onError={() => setLoaded(true)} {...(eager ? { fetchPriority: 'high' } : {})} {...rest} />
 }
 
-/** Cheap cursor spotlight: writes CSS vars directly, no React re-render. */
-export const spotlight = {
-  onPointerMove: e => {
-    const r = e.currentTarget.getBoundingClientRect()
-    e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
-    e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
-  },
-}
+/** Kept for API compatibility: the cursor glow was retired with the editorial redesign. */
+export const spotlight = {}
 
 /** Signature element: the yellow shelf price tag. Stamps into place once when it scrolls into view. */
 export function PriceTag({ value, size = 'md', note, live = false, className = '' }) {

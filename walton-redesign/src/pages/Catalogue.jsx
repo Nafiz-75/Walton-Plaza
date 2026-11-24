@@ -2,11 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, LayoutGroup, useDragControls } from 'framer-motion'
 import { SlidersHorizontal, X, Heart, SearchX, RotateCcw, ArrowDownWideNarrow, Share2, HeartHandshake } from 'lucide-react'
 import { Link, useRoute } from '../lib/router'
-import { BUDGETS, CATEGORIES, CAT_HINT, COUNT, PRODUCTS, P, money, slug, isInverter, search } from '../lib/data'
+import { BUDGETS, CATEGORIES, CAT_HINT, COUNT, PRODUCTS, P, money, slug, isInverter, search, LIFE } from '../lib/data'
+
+const CAT_SCENE = { 'Refrigerators': LIFE.hero, 'Televisions': LIFE.living, 'Air conditioners': LIFE.bedroom, 'Washing machines': LIFE.laundry, 'Kitchen appliances': LIFE.kitchen, 'Home appliances': LIFE.reading }
 import { useStore, useUI } from '../lib/store'
 import { lockScroll } from '../lib/smooth'
 import { spring } from '../lib/motion'
-import { AnimatedNumber, Breadcrumbs, Empty, SplitText, Reveal } from '../components/ui'
+import { AnimatedNumber, Breadcrumbs, Empty, SplitText, Reveal, Scene } from '../components/ui'
 import ProductCard from '../components/ProductCard'
 
 const STEP = 24
@@ -125,10 +127,12 @@ export default function Catalogue({ mode }) {
   const title = mode === 'wishlist' ? (viewingShared ? 'A shortlist shared with you.' : 'Saved for a little later.') : mode === 'search' ? (q ? `Results for “${q}”` : 'Search the collection') : category || 'Find your everyday upgrade.'
   const lead = mode === 'wishlist' ? (viewingShared ? 'Someone picked these models for you. Save them to your own list, or take this page to a Walton Plaza.' : 'Saved on this device. Share the list to show it at a Plaza or send it to family.') : mode === 'search' ? 'Refine the results with filters, or try another word.' : CAT_HINT[category] || 'Explore every collected model, from everyday essentials to your next big upgrade.'
 
+  const scene = mode === 'shop' && CAT_SCENE[category]
   return (
     <div className="wrap">
       <Breadcrumbs items={[[mode === 'wishlist' ? 'Wishlist' : mode === 'search' ? 'Search' : category ? 'Shop' : 'All products', category ? '#/shop' : null], ...(category ? [[category]] : [])]} />
-      <header className="pagehead compact" key={title}>
+      <div className={scene ? 'pagehead-split cat-split' : undefined} key={title}>
+      <header className="pagehead compact">
         <Reveal as="span" className="eyebrow">{mode === 'wishlist' ? 'Your wishlist' : 'The Walton collection'}</Reveal>
         <SplitText as="h1" text={title} />
         <Reveal as="p" className="lead" delay={0.12}>{lead}</Reveal>
@@ -148,6 +152,8 @@ export default function Catalogue({ mode }) {
           </Reveal>
         )}
       </header>
+        {scene && <Scene className="pagehead-photo" src={scene.src} alt={scene.alt} eager drift={20} />}
+      </div>
 
       <div className="catalog">
         <aside className="catalog-side" data-lenis-prevent><Filters subs={subs} f={f} set={set} base={base} /></aside>

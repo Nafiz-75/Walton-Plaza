@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ArrowLeft, X, Columns2, Plus, Search, Check, Info } from 'lucide-react'
 import { Link, navigate, useRoute } from '../lib/router'
-import { BUDGETS, CATEGORIES, COUNT, CAT_HINT, P, PRODUCTS, money, moneyPlain, pick, slug, search, isInverter } from '../lib/data'
+import { BUDGETS, CATEGORIES, COUNT, CAT_HINT, P, PRODUCTS, money, moneyPlain, pick, slug, search, isInverter, LIFE } from '../lib/data'
 import { useStore } from '../lib/store'
 import { spring, ease } from '../lib/motion'
 import { AnimatedNumber, Breadcrumbs, Empty, PageHead, ProductImage, Reveal, Stagger, Item } from '../components/ui'
@@ -24,7 +24,7 @@ export function Finance() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Payment planner']]} />
-      <PageHead eyebrow="Plan with clarity" title="A budget that feels like you." text="Explore the numbers before you decide. This is an illustrative budgeting calculator, not a Walton financing offer." />
+      <PageHead eyebrow="Plan with clarity" title="A budget that feels like" accent="you." photo={LIFE.kitchen.src} photoAlt={LIFE.kitchen.alt} text="Explore the numbers before you decide. This is an illustrative budgeting calculator, not a Walton financing offer." />
       <div className="calc">
         <Reveal className="panel calc-form">
           <label className="field"><span>Choose a product</span>

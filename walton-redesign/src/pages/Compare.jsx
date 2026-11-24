@@ -46,7 +46,7 @@ export function Compare() {
   return (
     <div className="wrap">
       <Breadcrumbs items={[['Compare']]} />
-      <PageHead eyebrow="See the difference" title="Good choices, side by side." text="Compare up to three models. Add products with the Compare toggle, or search below." />
+      <PageHead eyebrow="See the difference" title="Good choices," accent="side by side." text="Compare up to three models. Add products with the Compare toggle, or search below." />
       {!ps.length ? (
         <div className="pad-b"><Empty icon={Columns2} title="Your comparison starts here." text="Choose a few favourites from the catalogue and tick Compare." /></div>
       ) : (

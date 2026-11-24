@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, BadgeCheck, Truck, Wallet, ChevronDown, ZoomIn, PackageSearch, Share2 } from 'lucide-react'
 import { Link } from '../lib/router'
-import { P, PRODUCTS, money, slug, highlights, techLabel, CAT_HINT, isInverter } from '../lib/data'
+import { P, PRODUCTS, money, slug, highlights, techLabel, CAT_HINT, isInverter, LIFE } from '../lib/data'
 import { useStore, useUI } from '../lib/store'
 import { spring, ease } from '../lib/motion'
-import { AnimatedNumber, Breadcrumbs, Empty, ProductImage, Reveal, SectionHead, Stagger, Item, PriceTag } from '../components/ui'
+import { Accent, AnimatedNumber, Breadcrumbs, Empty, ProductImage, Reveal, Scene, SectionHead, Stagger, Item, PriceTag } from '../components/ui'
 import ProductCard, { AddButton, CompareToggle, HeartButton } from '../components/ProductCard'
 import { Stepper } from '../components/overlays/Stepper'
 
@@ -112,6 +112,7 @@ export default function Product({ id }) {
   if (!p) return <div className="wrap section"><Empty icon={PackageSearch} title="Product not found." text="Explore the catalogue to find your model." /></div>
 
   const hl = highlights(p, 4)
+  const home = Object.values(LIFE).find(l => l.id === p.id)
   const related = PRODUCTS.filter(x => x.category === p.category && x.id !== p.id && (x.sub === p.sub || true)).sort((a, b) => (b.sub === p.sub) - (a.sub === p.sub)).slice(0, 10)
   const monthly = p.price ? Math.round(p.price / 12) : 0
   const share = async () => {
@@ -154,11 +155,22 @@ export default function Product({ id }) {
         </div>
       </section>
 
+      {home && (
+        <section className="section story at-home">
+          <Scene src={home.src} alt={home.alt} ratio="3 / 2" />
+          <Reveal className="story-copy">
+            <span className="eyebrow">Seen at home</span>
+            <h2>Made to live in a real <Accent>room.</Accent></h2>
+            <p className="lead">The {p.name}, shown in a home setting so you can picture its size and finish next to everyday things.</p>
+          </Reveal>
+        </section>
+      )}
+
       <Reveal><Details p={p} /></Reveal>
 
       {related.length > 0 && (
         <section className="section">
-          <SectionHead eyebrow="Keep exploring" title="A few more possibilities." text="Drag to browse similar models." link={slug(p.category)} label="View category" />
+          <SectionHead eyebrow="Keep exploring" title="A few more" accent="possibilities." text="Drag to browse similar models." link={slug(p.category)} label="View category" />
           <Carousel items={related} />
         </section>
       )}

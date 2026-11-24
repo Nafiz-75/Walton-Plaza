@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useSpring } from 'framer-motion'
 import { Search, Heart, ShoppingBag, Columns2, UserRound, Menu, Sun, Moon, Monitor, ChevronDown, ArrowUpRight, ArrowRight, House, LayoutGrid, SlidersHorizontal, MapPin } from 'lucide-react'
 import { Link, useRoute } from '../lib/router'
-import { CATEGORIES, COUNT, pick, slug, CAT_HINT, PRODUCTS } from '../lib/data'
+import { CATEGORIES, COUNT, pick, slug, CAT_HINT, PRODUCTS, LIFE } from '../lib/data'
 import { useStore, useUI } from '../lib/store'
 import { spring, ease } from '../lib/motion'
 import { Brand, ProductImage, ThemeSwitch } from './ui'
@@ -59,14 +59,6 @@ export default function Header() {
 
   return (
     <>
-      <section className="topbar" aria-label="Store information">
-        <div className="wrap row between">
-          <span>Walton at every home · <b>{PRODUCTS.length} models</b> to explore</span>
-          <nav className="row utility" aria-label="Help">
-            <Link to="#/stores">Find a Plaza</Link><Link to="#/support">Help &amp; support</Link><a href="tel:16267">Call 16267</a>
-          </nav>
-        </div>
-      </section>
       <header className={'header' + (scrolled ? ' scrolled' : '')}>
         <div className="wrap mainhead">
           <Brand />
@@ -119,6 +111,7 @@ export default function Header() {
                   ))}
                 </motion.div>
                 <Link to="#/finder" className="megapromo">
+                  <img src={LIFE.laundry.src} alt="" loading="lazy" /><span className="mp-shade" aria-hidden="true" />
                   <span className="eyebrow">Not sure where to start?</span>
                   <b>Find your fit in three quick steps.</b>
                   <span className="textlink">Help me choose <ArrowRight className="icon arrow" /></span>

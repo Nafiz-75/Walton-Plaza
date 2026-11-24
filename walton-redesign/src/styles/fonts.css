@@ -1,0 +1,8 @@
+/* Plus Jakarta Sans (UI + headlines) and Hind Siliguri for ৳ and Bengali digits. */
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 400; font-display: swap; src: url(../assets/fonts/plus-jakarta-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 500; font-display: swap; src: url(../assets/fonts/plus-jakarta-sans-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 600; font-display: swap; src: url(../assets/fonts/plus-jakarta-sans-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-display: swap; src: url(../assets/fonts/plus-jakarta-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-display: swap; src: url(../assets/fonts/plus-jakarta-sans-latin-800-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Hind Siliguri'; font-weight: 400 500; font-display: swap; unicode-range: U+09E6-09F3; src: url(../assets/fonts/HindSiliguri-400.woff) format('woff'); }
+@font-face { font-family: 'Hind Siliguri'; font-weight: 600 800; font-display: swap; unicode-range: U+09E6-09F3; src: url(../assets/fonts/HindSiliguri-600.woff) format('woff'); }

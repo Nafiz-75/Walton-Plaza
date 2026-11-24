@@ -1,0 +1,23 @@
+# Not part of the GitHub upload
+figma-plugin/
+.claude/
+CLAUDE.md
+*.memory.md
+
+# Installed packages and build output (rebuild with npm)
+node_modules/
+walton-redesign/dist/
+walton-redesign/dist-web/
+Open Walton Plaza.html
+
+# Old standalone exports (45 MB each)
+Walton-Plaza-Admin-Dashboard.html
+Walton-Plaza-Redesign.html
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.vscode/
+.idea/

@@ -97,7 +97,8 @@ main { outline: none; min-height: 60vh; }
 .grad { color: var(--brand); }
 
 /* split text */
-.split-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; }
+/* masks clip the rising words without padding (overflow-clip-margin keeps descenders), so title lines stay exactly one line-height tall */
+.split-mask { display: inline-block; overflow: clip; overflow-clip-margin: .25em; vertical-align: top; }
 .split-word { display: inline-block; will-change: transform; }
 
 /* =========================================================
@@ -241,7 +242,7 @@ kbd { font: 600 11px var(--font); padding: 2px 7px; border-radius: 6px; border: 
 .hero .eyebrow { color: #1f2747; margin-bottom: 18px; }
 .hero .eyebrow .icon { color: #1f2747; }
 .hero-title { font-family: var(--script); font-weight: 700; font-size: clamp(64px, 5.3vw, 102px); line-height: .92; letter-spacing: -.005em; color: #101a3a; margin: 0; }
-.hl-mask { display: block; overflow: hidden; padding: .04em .1em 0 0; }
+.hl-mask { display: block; overflow: clip; overflow-clip-margin: .3em; }
 .hl-mask.home { padding-left: 1.25em; padding-bottom: .3em; }
 .hl { display: inline-block; will-change: transform; }
 .hero-title .accent { --acc: 1.04; line-height: .9; vertical-align: baseline; }
@@ -369,7 +370,7 @@ kbd { font: 600 11px var(--font); padding: 2px 7px; border-radius: 6px; border: 
 .card-body h3 a::after { content: ''; position: absolute; inset: 0; z-index: 1; } /* whole card clickable */
 .card-meta { font-size: 13px; margin: 6px 0 14px; }
 .card-price { display: flex; flex-direction: column; margin-top: auto; }
-.price { font-size: 22px; font-weight: 800; letter-spacing: -.035em; color: var(--ink); }
+.price { white-space: nowrap; font-size: 22px; font-weight: 800; letter-spacing: -.035em; color: var(--ink); }
 .price.sm { font-size: 17px; }
 .price.lg { font-size: 30px; }
 .price.xl { font-size: clamp(32px, 3.4vw, 44px); }
@@ -649,7 +650,7 @@ kbd { font: 600 11px var(--font); padding: 2px 7px; border-radius: 6px; border: 
    ========================================================= */
 .breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 26px 0 8px; font-size: 13.5px; color: var(--muted); }
 .breadcrumb a:hover { color: var(--brand); }
-.breadcrumb .sep { margin: 0 8px; opacity: .5; }
+.breadcrumb .sep { opacity: .5; white-space: pre; }
 .breadcrumb [aria-current] { color: var(--ink); font-weight: 600; }
 .pagehead { padding: 28px 0 48px; max-width: 900px; }
 .pagehead h1 { margin-bottom: 18px; }
@@ -1037,8 +1038,9 @@ a.account-tile:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1.5p
   .pdp { gap: 22px; padding-bottom: 24px; }
   .gallery { border-radius: 22px; }
   .gallery-hint { display: none; }
-  .pdp-actions { flex-wrap: wrap; }
-  .pdp-actions .btn { order: 3; flex-basis: 100%; }
+  .pdp-actions { flex-wrap: nowrap; gap: 8px; }
+  .pdp-actions .btn { flex: 1; min-width: 0; padding-inline: 14px; }
+  .pdp-actions .stepper-ctl button { width: 36px; }
   .hl-list { grid-template-columns: 1fr 1fr; }
   .detail-tabs { gap: 20px; }
   .detail-tabs button { font-size: 15px; }
@@ -1230,3 +1232,11 @@ a.account-tile:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1.5p
   .footer-sign { font-size: clamp(44px, 13vw, 64px); line-height: 1.05; }
 }
 @media (max-width: 1180px) { .mainhead { gap: 20px; } .headtools { gap: 2px; } .themeswitch { margin-right: 4px; } }
+/* Checkout review rows: the model name wraps instead of pushing the price off a phone screen */
+.review-items li { min-width: 0; }
+.review-items span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.review-items li > :last-child { flex: none; white-space: nowrap; }
+.review-grid > * { min-width: 0; }
+
+/* Grid items may shrink below their content (keeps the checkout and cart panels inside a phone screen) */
+.cart-layout > *, .calc > *, .pdp > *, .catalog > * { min-width: 0; }

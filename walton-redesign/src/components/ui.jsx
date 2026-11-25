@@ -162,7 +162,7 @@ export function Breadcrumbs({ items }) {
     <nav className="breadcrumb" aria-label="Breadcrumb">
       <Link to="#/">Home</Link>
       {items.map(([label, to], i) => (
-        <span key={i}><span aria-hidden="true" className="sep">/</span>{to ? <Link to={to}>{label}</Link> : <span aria-current="page">{label}</span>}</span>
+        <span key={i}><span aria-hidden="true" className="sep">{'  /  '}</span>{to ? <Link to={to}>{label}</Link> : <span aria-current="page">{label}</span>}</span>
       ))}
     </nav>
   )

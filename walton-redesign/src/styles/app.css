@@ -1234,7 +1234,7 @@ a.account-tile:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1.5p
 @media (max-width: 1180px) { .mainhead { gap: 20px; } .headtools { gap: 2px; } .themeswitch { margin-right: 4px; } }
 /* Checkout review rows: the model name wraps instead of pushing the price off a phone screen */
 .review-items li { min-width: 0; }
-.review-items span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.review-items span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; padding-right: 10px; }
 .review-items li > :last-child { flex: none; white-space: nowrap; }
 .review-grid > * { min-width: 0; }
 
